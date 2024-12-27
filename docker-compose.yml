@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+    mysql:
+        image: mysql:8.0
+        container_name: mysql-book
+        volumes:
+            - ./docker/mysql:/var/lib/mysql
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: test
+            MYSQL_DATABASE: test
+            MYSQL_USER: test
+            MYSQL_PASSWORD: test
+        networks:
+            - laravel
+
+    php-fpm:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel_php-fpm
+        volumes:
+            - .:/var/www
+            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+        networks:
+            - laravel
+        depends_on:
+            - mysql
+
+    nginx:
+        build:
+            context: ./docker/nginx
+            dockerfile: Dockerfile
+        container_name: laravel_nginx
+        depends_on:
+            - php-fpm
+        volumes:
+            - .:/var/www
+        ports:
+            - "8080:80"
+        networks:
+            - laravel
+
+networks:
+    laravel:
+        driver: bridge
