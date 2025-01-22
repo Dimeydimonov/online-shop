@@ -1,0 +1,66 @@
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+    margin: 0;
+}
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    border: none;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 8px;
+}
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    text-align: center;
+    font-size: 1.5em;
+    border-radius: 8px;
+    height: 33px;
+}
+.card-body {
+    display: flex;
+    flex-direction: column;
+}
+.profile-field {
+    margin: 15px;
+}
+.profile-field label {
+    font-weight: bold;
+    margin-right: 10px;
+}
+.profile-field input, .profile-field span {
+    color: #555;
+    flex: 1;
+}
+.profile-field input {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 1em;
+}
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 1.2em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    width: 100%;
+}
+.btn-primary:hover {
+    background-color: #0056b3;
+
+}

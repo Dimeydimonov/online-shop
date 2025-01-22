@@ -1,9 +1,52 @@
-version: '3.8'
-
+version: "3.7"
 services:
+    nginx:
+        image: nginx:latest
+        container_name: nginx
+        networks:
+            - my_network
+        volumes:
+            - ./:/var/www
+            - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+        ports:
+            - "80:80"
+        depends_on:
+            - php-fpm  # только один контейнер php-fpm
+
+    php-fpm:
+        build:
+            context: ./
+            dockerfile: docker/php-fpm.docker
+        container_name: php-fpm
+        ports:
+            - "9000:9000"  # Стандартный порт для php-fpm
+            - "9003:9003"  # Порт для Xdebug
+        networks:
+            - my_network
+        environment:
+            - XDEBUG_MODE=debug
+            - XDEBUG_CLIENT_HOST=host.docker.internal  # Важно для связи контейнера с хостом (для Xdebug)
+            - XDEBUG_CLIENT_PORT=9003
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - mysql
+
+    php-cli:
+        build:
+            context: ./
+            dockerfile: docker/php-cli.docker
+        container_name: book-php-cli
+        networks:
+            - my_network
+        volumes:
+            - ./:/var/www
+        depends_on:
+            - mysql
+
     mysql:
         image: mysql:8.0
-        container_name: mysql-book
+        container_name: mysql-lara
         volumes:
             - ./docker/mysql:/var/lib/mysql
         ports:
@@ -14,35 +57,7 @@ services:
             MYSQL_USER: test
             MYSQL_PASSWORD: test
         networks:
-            - laravel
-
-    php-fpm:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        container_name: laravel_php-fpm
-        volumes:
-            - .:/var/www
-            - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
-        networks:
-            - laravel
-        depends_on:
-            - mysql
-
-    nginx:
-        build:
-            context: ./docker/nginx
-            dockerfile: Dockerfile
-        container_name: laravel_nginx
-        depends_on:
-            - php-fpm
-        volumes:
-            - .:/var/www
-        ports:
-            - "8080:80"
-        networks:
-            - laravel
-
+            - my_network
 networks:
-    laravel:
+    my_network:
         driver: bridge

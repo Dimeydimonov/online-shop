@@ -15,12 +15,13 @@
     </div>
     <div class="account">
         @auth
+            <a href="{{ route('profile') }}"> Профиль </a>
             <a href="#">Корзина</a>
-            <a href="#">Выйти</a>
+            <a href="{{ route('login') }}">Выйти</a>
         @else
             <a href="#">Корзина</a>
-            <a href="#">Войти</a>
-            <a href="#">Регистрация</a>
+            <a href="{{ route('login') }}">Войти</a>
+            <a href="{{ route('register') }}" >Регистрация</a>
         @endauth
     </div>
 </header>
