@@ -13,13 +13,7 @@
                 <li class="nav-item"><a href="/reports">Отчеты</a></li>
             </ul>
         </div>
-        <div class="search">
-            <input type="text" placeholder="Поиск">
-            <button>Найти</button>
-        </div>
-        <div class="account">
-            <a href="/logout">Выход</a>
-        </div>
+
     </div>
     <div class="main-container">
         <div class="content-container">
