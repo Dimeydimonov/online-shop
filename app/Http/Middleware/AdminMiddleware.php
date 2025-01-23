@@ -9,11 +9,12 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->user() || !auth()->user()->isAdmin()) {
-            return redirect('/home');
+        // Проверяем, авторизован ли пользователь и является ли он администратором
+        if (auth()->check() && auth()->user()->role === 'admin') {
+            return $next($request);
         }
 
-        return $next($request);
+        // Если пользователь не администратор, перенаправляем его на главную страницу
+        return redirect('/')->with('error', 'У вас нет доступа к этой странице.');
     }
 }
-
