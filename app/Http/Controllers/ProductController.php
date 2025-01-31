@@ -12,12 +12,12 @@ class ProductController extends Controller
         $query = Product::query();
 
         // Фильтрация по категории
-        if ($request->has('category')) {
+        if ($request->has('category') && $request->category) {
             $query->where('category', $request->category);
         }
 
         // Сортировка
-        if ($request->has('sort')) {
+        if ($request->has('sort') && $request->sort) {
             switch ($request->sort) {
                 case 'price_asc':
                     $query->orderBy('price', 'asc');
@@ -34,9 +34,11 @@ class ProductController extends Controller
             }
         }
 
-        $products = $query->get();
+        // Пагинация
+        $products = $query->paginate(15);
 
-        return view('products.index', compact('products'));
+        // Возвращаем представление home с параметрами фильтрации и сортировки
+        return view('home', compact('products'));
     }
 
     public function show(Product $product)

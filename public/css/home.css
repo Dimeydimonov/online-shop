@@ -40,12 +40,12 @@ body {
 /* Стили для основного контента */
 .content-container {
     display: flex;
-    gap: 20px; /* Добавим промежуток между колонками */
+    gap: 20px; /* Промежуток между колонками */
     padding: 20px;
 }
 
 .main-content {
-    flex: 1; /* Займет оставшееся пространство */
+
     padding: 20px;
     overflow: hidden; /* Добавляем, чтобы скрыть переполнение */
 }
@@ -54,41 +54,32 @@ body {
 .slider-container {
     width: 100%;
     margin-bottom: 20px;
-    position: relative; /* Относительное позиционирование для управления контентом внутри */
+    position: relative;
+    overflow: hidden;
 }
 
 .slider {
     display: flex;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    border-radius: 5px;
-    border: 2px solid #ddd;
-    width: 100%; /* Устанавливаем ширину слайдера в 100% */
+    width: 300%;
+    animation: slideAnimation 12s infinite linear;
 }
 
 .slide {
-    min-width: 100%;
-    height: 300px; /* Высота изображения акций */
+    min-width: 25%; /* Каждый слайд занимает 25% */
+    height: 300px;
     background-color: #ddd;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5em;
     color: #666;
-    transition: transform 0.5s ease;
-    box-sizing: border-box; /* Учитываем padding и border в ширину и высоту */
+    box-sizing: border-box;
 }
 
+/* Плавная анимация слайдера */
 @keyframes slideAnimation {
-    0%, 20% { transform: translateX(0); }
-    25%, 45% { transform: translateX(-100%); }
-    50%, 70% { transform: translateX(-200%); }
-    75%, 95% { transform: translateX(-300%); }
-    100% { transform: translateX(-400%); }
-}
-
-.slider {
-    animation: slideAnimation 12s infinite;
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
 }
 
 /* Стили для карточек товаров */
@@ -142,4 +133,43 @@ body {
 
 .product-card .add-to-cart:hover {
     background-color: #2980b9;
+}
+
+
+/* Дополнительные стили для таблицы товаров */
+.products-table {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.products-table > thead > tr > th {
+    color: black;
+    font-weight: bold;
+    text-align: center;
+    padding: 20px;
+}
+
+.main-container {
+    height: 500px;
+}
+
+/* Стили для контейнера фильтров */
+.filters {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    align-items: center;
+    width: 100%;
+}
+
+.filters select {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+    max-width: 250px;
+    flex-shrink: 0;
 }

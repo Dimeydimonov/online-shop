@@ -33,7 +33,8 @@
             </div>
             <div class="profile-field">
                 <label>{{ __('Дата рождения:') }}</label>
-                <input type="date" name="birthdate" value="{{ $user->birthdate }}">
+                <input type="date" name="birthdate" class="form-control" value="{{ $user->birthdate ? $user->birthdate->format('Y-m-d') : '' }}" required>
+
             </div>
             <div class="profile-field">
                 <label>{{ __('Телефон:') }}</label>
@@ -60,7 +61,7 @@
                 <input type="text" name="village" value="{{ $user->village }}">
             </div>
             <div class="profile-field">
-                <label>{{ __('Новая почта адрес:') }}</label>
+                <label>{{ __('Адрес почтового отделения:') }}</label>
                 <input type="text" name="new_post_address" value="{{ $user->new_post_address }}">
             </div>
             <button type="submit" class="btn-primary">{{ __('Сохранить') }}</button>

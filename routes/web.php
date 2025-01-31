@@ -9,8 +9,11 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HomeController;
 
-// Главная страница с товарами
+// Главная страница
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
 Route::get('/', [ProductController::class, 'index'])->name('products.index');
 Route::get('/products/{product}', [ProductController::class, 'show'])->name('products.show');
 
@@ -31,6 +34,11 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/products/edit/{id}', [AdminController::class, 'editProduct'])->name('admin.products.edit');
     Route::put('/products/update/{id}', [AdminController::class, 'updateProduct'])->name('admin.products.update');
     Route::delete('/products/delete/{id}', [AdminController::class, 'deleteProduct'])->name('admin.products.destroy');
+
+    // Добавляем недостающие маршруты
+    Route::post('/products/toggle-active/{id}', [AdminController::class, 'toggleActive'])->name('admin.products.toggleActive');
+    Route::post('/products/set-discount/{id}', [AdminController::class, 'setDiscount'])->name('admin.products.setDiscount');
+    Route::post('/products/remove-discount/{id}', [AdminController::class, 'removeDiscount'])->name('admin.products.removeDiscount');
 
     // Дополнительные маршруты
     Route::get('/orders', [AdminController::class, 'orders'])->name('admin.orders');
@@ -65,6 +73,3 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-// Домашняя страница
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

@@ -43,7 +43,7 @@ class RegisterController extends Controller
         if ($user->role === 'admin') {
             return redirect('/dashboard');
         } else {
-            return redirect('/profile');
+            return redirect('/');
         }
     }
 

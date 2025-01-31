@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class AdminController extends Controller
 {
     // Отображение панели администратора
-    public function index()
+    public function index(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
         $products = Product::paginate(10);
         return view('dashboard', compact('products'));
@@ -42,7 +42,7 @@ class AdminController extends Controller
         return redirect()->route('admin.users')->with('success', 'Пользователь обновлен');
     }
 
-    public function deleteUser($id)
+    public function deleteUser($id): \Illuminate\Http\RedirectResponse
     {
         $user = User::findOrFail($id);
         $user->delete();
@@ -51,7 +51,7 @@ class AdminController extends Controller
     }
 
     // Управление товарами
-    public function products()
+    public function products(): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
         $products = Product::paginate(10);
         return view('admin.products', compact('products'));
@@ -62,7 +62,7 @@ class AdminController extends Controller
         return view('admin.create-product');
     }
 
-    public function storeProduct(Request $request)
+    public function storeProduct(Request $request): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -86,13 +86,13 @@ class AdminController extends Controller
         return redirect()->route('admin.products')->with('success', 'Товар успешно добавлен');
     }
 
-    public function editProduct($id)
+    public function editProduct($id): \Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|\Illuminate\Foundation\Application
     {
         $product = Product::findOrFail($id);
         return view('admin.edit-product', compact('product'));
     }
 
-    public function updateProduct(Request $request, $id)
+    public function updateProduct(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -100,15 +100,15 @@ class AdminController extends Controller
             'price' => 'required|numeric',
             'category' => 'required|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'active' => 'boolean',
-            'discount' => 'nullable|numeric',
+            'is_active' => 'boolean',
+            'discount' => 'nullable|numeric|min:0|max:100',
         ]);
 
         $product = Product::findOrFail($id);
         $product->update($request->except('image'));
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('products', 'public');
+            $imagePath = $request->file('image')->storeAs('img-product', $request->file('image')->getClientOriginalName(), 'public');
             $product->image = $imagePath;
             $product->save();
         }
@@ -116,7 +116,8 @@ class AdminController extends Controller
         return redirect()->route('admin.products')->with('success', 'Товар обновлен');
     }
 
-    public function deleteProduct($id)
+
+    public function deleteProduct($id): \Illuminate\Http\RedirectResponse
     {
         $product = Product::findOrFail($id);
         $product->delete();
@@ -124,8 +125,10 @@ class AdminController extends Controller
         return redirect()->route('admin.products')->with('success', 'Товар удален');
     }
 
+    // Добавленные методы
+
     // Переключение статуса товара (активный/неактивный)
-    public function toggleActive($id)
+    public function toggleActive($id): \Illuminate\Http\RedirectResponse
     {
         $product = Product::findOrFail($id);
         $product->active = !$product->active;
@@ -135,7 +138,7 @@ class AdminController extends Controller
     }
 
     // Установка скидки на товар
-    public function setDiscount(Request $request, $id)
+    public function setDiscount(Request $request, $id): \Illuminate\Http\RedirectResponse
     {
         $request->validate([
             'discount' => 'required|numeric|min:0|max:100',
@@ -149,7 +152,7 @@ class AdminController extends Controller
     }
 
     // Удаление скидки с товара
-    public function removeDiscount($id)
+    public function removeDiscount($id): \Illuminate\Http\RedirectResponse
     {
         $product = Product::findOrFail($id);
         $product->discount = null;

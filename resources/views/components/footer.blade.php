@@ -3,13 +3,16 @@
         <!-- Контактная информация -->
         <div class="footer-section contact-info">
             <h4>Контакты</h4>
-            <p>График работы Call-центра</p>
             <ul class="social-media">
-                <li><a href="#"><img src="path/to/facebook-icon.png" alt="Facebook"></a></li>
-                <li><a href="#"><img src="path/to/youtube-icon.png" alt="YouTube"></a></li>
-                <li><a href="#"><img src="path/to/instagram-icon.png" alt="Instagram"></a></li>
-                <li><a href="#"><img src="path/to/telegram-icon.png" alt="Telegram"></a></li>
+                <li><a href="#"><img src="{{ asset('images/icons8-facebook.png') }}" alt="Facebook"></a></li>
+                <li><a href="#"><img src="{{ asset('images/icons8-YouTube.png') }}" alt="YouTube"></a></li>
+                <li><a href="#"><img src="{{ asset('images/icons8-Instagram.png') }}"  alt="Instagram"></a></li>
+                <li><a href="#"><img src="{{ asset('images/icons8-Telegram.png') }}"alt="Telegram"></a></li>
+
             </ul>
+            <div class="copyright">
+                <p>© 2025 Petrovich. Все права защищены.</p>
+            </div>
         </div>
 
         <!-- Ссылки на страницы сайта -->
@@ -50,29 +53,5 @@
             <p><a href="#">Аренда помещений</a></p>
         </div>
 
-        <!-- Карта -->
-        <div class="footer-section map-section">
-            <h4>Где нас найти</h4>
-            <iframe src="https://www.google.com/maps/embed?pb=..." width="100%" height="300" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
-        </div>
-    </div>
-
-    <!-- Секция для скачивания приложений -->
-    <div class="footer-bottom">
-        <div class="download-app">
-            <a href="#"><img src="path/to/google-play-icon.png" alt="Google Play"></a>
-            <a href="#"><img src="path/to/app-store-icon.png" alt="App Store"></a>
-        </div>
-
-        <!-- Способы оплаты -->
-        <div class="payment-methods">
-            <img src="path/to/mastercard-securecode-icon.png" alt="Mastercard SecureCode">
-            <img src="path/to/verified-by-visa-icon.png" alt="Verified by Visa">
-        </div>
-
-        <!-- Авторские права -->
-        <div class="copyright">
-            <p>© 2025 Petrovich. Все права защищены.</p>
-        </div>
     </div>
 </footer>

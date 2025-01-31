@@ -3,12 +3,11 @@
     background-color: #222;
     color: #fff;
     font-family: 'Arial', sans-serif;
-    padding: 40px 20px;
 }
 
 .footer-content {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     justify-content: space-between;
     margin-bottom: 40px;
 }
@@ -43,63 +42,15 @@
     list-style: none;
     padding: 0;
     display: flex;
-    gap: 15px;
+
 }
 
 .social-media li a img {
     width: 30px;
     height: 30px;
-    transition: transform 0.3s;
 }
 
-.social-media li a img:hover {
-    transform: scale(1.1);
-}
 
-/* Карта */
-.map-section iframe {
-    border-radius: 8px;
-}
-
-/* Блок нижней части футера (скачивание приложений и способы оплаты) */
-.footer-bottom {
-    text-align: center;
-    margin-top: 30px;
-}
-
-.download-app a {
-    margin: 10px;
-}
-
-.download-app img {
-    width: 150px;
-    transition: transform 0.3s;
-}
-
-.download-app img:hover {
-    transform: scale(1.05);
-}
-
-.payment-methods img {
-    width: 80px;
-    margin: 0 10px;
-    transition: transform 0.3s;
-}
-
-.payment-methods img:hover {
-    transform: scale(1.1);
-}
-
-/* Авторские права */
-.copyright {
-    margin-top: 20px;
-    font-size: 0.85em;
-    color: #aaa;
-}
-
-.copyright p {
-    margin: 0;
-}
 
 /* Мобильная адаптивность */
 @media (max-width: 768px) {
