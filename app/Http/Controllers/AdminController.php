@@ -154,7 +154,7 @@
 
 		public function orders()
 		{
-			$orders = $this->orderService->getAllOrdersWithPagination(10); // Используем метод OrderService
+			$orders = $this->orderService->getAllOrdersWithPagination(10);
 			return view('admin.orders', compact('orders'));
 		}
 	}

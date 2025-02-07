@@ -18,12 +18,12 @@
 		{
 			$query = Product::query();
 
-			// Фильтрация по категории
+			// Фильтрация по кат
 			if ($request->has('category') && $request->category) {
 				$query->where('category', $request->category);
 			}
 
-			// Сортировка
+			// Сорт
 			if ($request->has('sort') && $request->sort) {
 				switch ($request->sort) {
 					case 'price_asc':

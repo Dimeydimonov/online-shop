@@ -10,15 +10,18 @@
 		 */
 		public function up(): void
 		{
-			Schema::create('order_items', function (Blueprint $table) {
-				$table->id();
-				$table->foreignId('order_id')->constrained()->onDelete('cascade');
-				$table->foreignId('product_id')->nullable()->constrained()->onDelete('set null'); // Товар может быть удален
-				$table->string('name');
-				$table->decimal('price', 10, 2);
-				$table->integer('quantity');
-				$table->timestamps();
-			});
+			if (!Schema::hasTable('users')) {
+				Schema::create('order_items', function (Blueprint $table) {
+					$table->id();
+					$table->foreignId('order_id')->constrained()->onDelete('cascade');
+					$table->foreignId('product_id')->nullable()->constrained()->onDelete('set null'); // Товар может быть удален
+					$table->string('name');
+					$table->decimal('price', 10, 2);
+					$table->integer('quantity');
+					$table->timestamps();
+				});
+			}
+
 		}
 
 		/**

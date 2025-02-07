@@ -1,17 +1,14 @@
 <?php
-namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+	namespace App\Http\Controllers;
 
-class DashboardController extends Controller
-{
-    /**
-     * Отображение панели управления.
-     *
-     * @return \Illuminate\View\View
-     */
-    public function index()
-    {
-        return view('dashboard');
-    }
-}
+	use Illuminate\Http\Request;
+
+	class DashboardController extends Controller
+	{
+
+		public function index()
+		{
+			return view('dashboard');
+		}
+	}

@@ -71,12 +71,12 @@
 		{
 			$query = $this->model->query();
 
-			// Фильтрация по категории
+			// Фильтрация по кат
 			if (isset($filters['category']) && $filters['category']) {
 				$query->where('category', $filters['category']);
 			}
 
-			// Сортировка
+			// Сорт
 			if (isset($filters['sort']) && $filters['sort']) {
 				switch ($filters['sort']) {
 					case 'price_asc':
