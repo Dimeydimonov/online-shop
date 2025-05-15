@@ -3,9 +3,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #333;
+    background-color: #54772c;
     padding: 10px 20px;
-    color: #fff;
+    color: #694747;
 }
 
 .logo {
@@ -73,7 +73,7 @@
 /* Стили для баннера */
 .header-banner {
     text-align: center;
-    background-color: #ff0000;
-    color: white;
+    background-color: #156d70;
+    color: #482d2d;
     padding: 10px 0;
 }

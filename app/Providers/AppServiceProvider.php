@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Providers;
+	namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
+	use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
-{
-    /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
+	class AppServiceProvider extends ServiceProvider
+	{
 
-    /**
-     * Bootstrap any application services.
-     */
-    public function boot()
-    {
-        $this->app['router']->aliasMiddleware('admin', \App\Http\Middleware\AdminMiddleware::class);
-    }
+		public function register(): void
+		{
+			//
+		}
 
-}
+
+		public function boot()
+		{
+			$this->app['router']->aliasMiddleware('admin', \App\Http\Middleware\AdminMiddleware::class);
+		}
+
+	}

@@ -1,48 +1,32 @@
 <?php
 
-namespace App\Http\Controllers;
+	namespace App\Http\Controllers;
 
-use App\Models\Product;
-use Illuminate\Http\Request;
+	use App\Services\ProductService;
+	use Illuminate\Http\Request;
 
-class ProductController extends Controller
-{
-    public function index(Request $request)
-    {
-        $query = Product::query();
+	class ProductController extends Controller
+	{
+		protected ProductService $productService;
 
-        // Фильтрация по категории
-        if ($request->has('category') && $request->category) {
-            $query->where('category', $request->category);
-        }
+		public function __construct(ProductService $productService)
+		{
+			$this->productService = $productService;
+		}
 
-        // Сортировка
-        if ($request->has('sort') && $request->sort) {
-            switch ($request->sort) {
-                case 'price_asc':
-                    $query->orderBy('price', 'asc');
-                    break;
-                case 'price_desc':
-                    $query->orderBy('price', 'desc');
-                    break;
-                case 'newest':
-                    $query->orderBy('created_at', 'desc');
-                    break;
-                case 'sale':
-                    $query->where('is_on_sale', true);
-                    break;
-            }
-        }
+		public function index(Request $request)
+		{
+			$filterParams = $request->all();
+			$products = $this->productService->getFilteredAndSortedProducts($filterParams);
+			return view('home', compact('products'));
+		}
 
-        // Пагинация
-        $products = $query->paginate(15);
-
-        // Возвращаем представление home с параметрами фильтрации и сортировки
-        return view('home', compact('products'));
-    }
-
-    public function show(Product $product)
-    {
-        return view('products.show', compact('product'));
-    }
-}
+		public function show(int $id)
+		{
+			$product = $this->productService->getProductById($id);
+			if (!$product) {
+				abort(404);
+			}
+			return view('products.show', compact('product'));
+		}
+	}

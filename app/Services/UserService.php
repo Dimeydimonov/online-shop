@@ -3,13 +3,13 @@
 	namespace App\Services;
 
 	use App\Models\User;
-	use App\Repositories\UserRepository;
+	use App\Repositories\User\UserRepository;
 	use Illuminate\Database\Eloquent\Collection;
 	use Illuminate\Pagination\LengthAwarePaginator;
 
 	class UserService
 	{
-		protected $userRepository;
+		protected UserRepository $userRepository;
 
 		public function __construct(UserRepository $userRepository)
 		{
@@ -76,5 +76,5 @@
 			return $this->userRepository->search($query);
 		}
 
-		
+
 	}

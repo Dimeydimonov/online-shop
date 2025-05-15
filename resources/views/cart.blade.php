@@ -1,101 +1,95 @@
 @extends('layouts.app')
 
+@section('styles')
+	<link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+@endsection
+
 @section('content')
+	<div class="cart-page">
+		<h1>Корзина</h1>
 
-    <link rel="stylesheet" href="{{ asset('css/cart.css') }}">
+		@if (session('success'))
+			<div class="alert alert-success">
+				{{ session('success') }}
+			</div>
+		@endif
 
-    <div class="cart-page">
-        <div class="cart-container">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @elseif (session('error'))
-                <div class="alert alert-error">{{ session('error') }}</div>
-            @endif
+		@if (session('error'))
+			<div class="alert alert-danger">
+				{{ session('error') }}
+			</div>
+		@endif
 
-            <h2>Корзина</h2>
+		@if (empty($cart) || count($cart) === 0)
+			<p>Ваша корзина пуста.</p>
+			<a href="{{ route('products.index') }}" class="btn btn-primary">Продолжить покупки</a>
+		@else
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Изображение</th>
+					<th>Название</th>
+					<th>Цена</th>
+					<th>Количество</th>
+					<th>Итого</th>
+					<th>Действия</th>
+				</tr>
+				</thead>
+				<tbody>
+				@foreach ($cart as $productId => $item)
+					<tr>
+						<td>
+							@if ($item['image'])
+								<img src="{{ asset($item['image']) }}" alt="{{ $item['name'] }}" width="50">
+							@else
+								Нет изображения
+							@endif
+						</td>
+						<td>{{ $item['name'] }}</td>
+						<td>{{ $item['price'] }} usd</td>
+						<td>
+							<input type="number" name="quantity[{{ $productId }}]" value="{{ $item['quantity'] }}"
+								   min="1" class="form-control cart-quantity">
+						</td>
+						<td>{{ $item['price'] * $item['quantity'] }} usd</td>
+						<td>
+							<form action="{{ route('cart.remove', $productId) }}" method="POST">
+								@csrf
+								@method('DELETE')
+								<button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+							</form>
+						</td>
+					</tr>
+				@endforeach
+				</tbody>
+				<tfoot>
+				<tr>
+					<td colspan="4"><strong>Итого без скидки:</strong></td>
+					<td>{{ $totalWithoutDiscount }} usd</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="4"><strong>Скидка:</strong></td>
+					<td>{{ $discount }} usd</td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="4"><strong>Итого к оплате:</strong></td>
+					<td><strong>{{ $totalWithDiscount }} usd</strong></td>
+					<td></td>
+				</tr>
+				<tr>
+					<td colspan="6">
+						<a href="{{ route('products.index') }}" class="btn btn-secondary">Продолжить покупки</a>
+					</td>
+				</tr>
+				</tfoot>
+			</table>
 
-            <!-- Товары в корзине -->
-            @if (count($cart) > 0)
-                <div class="cart-items">
-                    @foreach ($cart as $productId => $details)
-                        <div class="cart-item">
-                            <img src="{{ asset($details['image']) }}" alt="{{ $details['name'] }}">
-                            <h3>{{ $details['name'] }}</h3>
-                            <p>Цена: {{ $details['price'] }} USD</p>
-                            <p>Количество: {{ $details['quantity'] }}</p>
-                            <p>Итого: {{ $details['price'] * $details['quantity'] }} USD</p>
-
-                            <!-- Кнопка удаления товара -->
-                            <form action="{{ route('cart.remove', $productId) }}" method="POST" style="display:inline;">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="remove-from-cart">Удалить</button>
-                            </form>
-                        </div>
-                    @endforeach
-                </div>
-
-                <div class="cart-summary">
-                    <p>Общая сумма без скидки: {{ $totalWithoutDiscount }} USD</p>
-                    <p>Скидка: {{ $discount }} USD</p>
-                    <p>Итого к оплате: {{ $totalWithDiscount }} USD</p>
-
-                    <!-- Форма для промокода -->
-                    <form action="{{ route('cart') }}" method="GET">
-
-                    <div class="form-item">
-                            <label for="promo_code">Промокод</label>
-                            <input type="text" name="promo_code" placeholder="Введите промокод" value="{{ request('promo_code') }}">
-                        </div>
-                        <button type="submit">Применить промокод</button>
-                    </form>
-
-                    <!-- Форма оформления -->
-                    <form action="{{ route('cart.checkout') }}" method="POST">
-                        @csrf
-                        <div class="form-item">
-                            <label for="name">ФИО</label>
-                            <input type="text" name="name" required>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="phone">Номер телефона</label>
-                            <input type="text" name="phone" required>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="address">Адрес доставки</label>
-                            <input type="text" name="address" required>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="email">Электронная почта</label>
-                            <input type="email" name="email" required>
-                        </div>
-
-                        <div class="form-item">
-                            <label for="payment_method">Метод оплаты</label>
-                            <select name="payment_method">
-                                <option value="cash">Наложенный платеж</option>
-                                <option value="card">Онлайн картой</option>
-                                <option value="delivery">Самовывоз</option>
-                            </select>
-                        </div>
-
-                        <button type="submit">Оформить заказ</button>
-
-                        @guest
-                            <div class="register-suggestion">
-                                <p>Чтобы завершить оформление, пожалуйста, зарегистрируйтесь.</p>
-                                <a href="{{ route('register') }}" class="register-link">Зарегистрироваться</a>
-                            </div>
-                        @endguest
-                    </form>
-                </div>
-            @else
-                <p>Ваша корзина пуста</p>
-            @endif
-        </div>
-    </div>
-
+			<div class="cart-checkout-form">
+				<h2>Оформление заказа</h2>
+				<x-checkout-form :is-guest="$isGuest"/>
+			</div>
+		@endif
+	</div>
 @endsection
