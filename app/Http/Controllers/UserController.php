@@ -3,11 +3,9 @@
 	namespace App\Http\Controllers;
 
 	use App\Http\Requests\StoreUserRequest;
-
-	// сделать позже
+	
 	use App\Http\Requests\UpdateUserRequest;
 
-	// сделать позже
 	use App\Services\UserService;
 	use Illuminate\Http\JsonResponse;
 	use Illuminate\Http\Request;

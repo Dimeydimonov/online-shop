@@ -14,7 +14,7 @@
 	{
 		protected UserService $userService;
 		protected ProductService $productService;
-		protected OrderService $orderService; // Внедрите OrderService
+		protected OrderService $orderService;
 
 		public function __construct(UserService $userService, ProductService $productService, OrderService $orderService)
 		{
