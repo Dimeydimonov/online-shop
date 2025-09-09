@@ -41,7 +41,7 @@
 				return $totalWithoutDiscount * 0.20; // Скидка 20%
 			}
 
-			return 0; // Нет скидки по умолчанию
+			return 0;
 		}
 
 		public function calculateTotalWithDiscount(float $totalWithoutDiscount, float $discountAmount): float

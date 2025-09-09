@@ -1,81 +1,59 @@
 <?php
-namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\View\View;
+	namespace App\Http\Controllers\Auth;
 
-class RegisterController extends Controller
-{
-    /**
-     * Показать форму регистрации.
-     *
-     * @return View
-     */
-    public function showRegistrationForm()
-    {
-        return view('auth.register');
-    }
+	use App\Http\Controllers\Controller;
+	use App\Models\User;
+	use Illuminate\Http\Request;
+	use Illuminate\Support\Facades\Hash;
+	use Illuminate\Support\Facades\Validator;
+	use Illuminate\View\View;
 
-    /*
-     * Обработка запроса на регистрацию.
-     *
-     * @param Request $request
-     * @return RedirectResponse
-     */
-    public function register(Request $request)
-    {
-        // Объединение кода страны и номера телефона
-        $request->merge([
-            'phone' => $request->country_code . $request->phone
-        ]);
+	class RegisterController extends Controller
+	{
+		public function showRegistrationForm()
+		{
+			return view('auth.register');
+		}
 
-        $this->validator($request->all())->validate();
 
-        $user = $this->create($request->all());
+		public function register(Request $request)
+		{
+			$request->merge([
+				'phone' => $request->country_code . $request->phone
+			]);
 
-        auth()->login($user);
+			$this->validator($request->all())->validate();
 
-        // Перенаправление в зависимости от роли пользователя
-        if ($user->role === 'admin') {
-            return redirect('/dashboard');
-        } else {
-            return redirect('/');
-        }
-    }
+			$user = $this->create($request->all());
 
-    /**
-     * Получить валидатор для запроса на регистрацию.
-     *
-     * @param  array  $data
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'phone' => ['required_without:email', 'nullable', 'string', 'regex:/^\+[1-9]\d{1,14}$/', 'unique:users'],
-            'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
-    }
+			auth()->login($user);
 
-    /**
-     * Создать нового пользователя после успешной регистрации.
-     *
-     * @param  array  $data
-     * @return \App\Models\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'phone' => $data['phone'],
-            'email' => $data['email'] ?? null,
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-}
+			if ($user->role === 'admin') {
+				return redirect('/dashboard');
+			} else {
+				return redirect('/');
+			}
+		}
+
+		protected function validator(array $data)
+		{
+			return Validator::make($data, [
+				'name' => ['required', 'string', 'max:255'],
+				'phone' => ['required_without:email', 'nullable', 'string', 'regex:/^\+[1-9]\d{1,14}$/', 'unique:users'],
+				'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users'],
+				'password' => ['required', 'string', 'min:8', 'confirmed'],
+			]);
+		}
+
+
+		protected function create(array $data)
+		{
+			return User::create([
+				'name' => $data['name'],
+				'phone' => $data['phone'],
+				'email' => $data['email'] ?? null,
+				'password' => Hash::make($data['password']),
+			]);
+		}
+	}

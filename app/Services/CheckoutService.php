@@ -2,23 +2,17 @@
 
 	namespace App\Services;
 
+	use Illuminate\Support\Facades\Log;
+
 	class CheckoutService
 	{
 
 
 		public function processCheckout(array $requestData)
 		{
-			// Реализуйте здесь логику обработки оформления заказа:
-			// - Валидация данных запроса ($requestData)
-			// - Создание пользователя (если необходимо)
-			// - Создание заказа
-			// - Сохранение деталей заказа
-			// - Очистка корзины
-			// - Отправка уведомлений (например, email)
-			// - Возврат результата (например, созданный заказ или пользователь)
-			// Пример (пока пустой): всякая хрень которую нужно будет как-то реализовать...
-			\Log::info('Checkout processed with data: ' . json_encode($requestData));
-			return null; // Верните результат обработки заказа
+
+			Log::info('Checkout processed with data: ' . json_encode($requestData));
+			return null;
 		}
 
 

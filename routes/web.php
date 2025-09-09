@@ -1,5 +1,6 @@
 <?php
 
+	use Illuminate\Support\Facades\Log;
 	use App\Http\Controllers\Admin\ProductController as AdminProductController;
 	use App\Http\Controllers\AdminController;
 	use App\Http\Controllers\Auth\ForgotPasswordController;
@@ -52,7 +53,7 @@
 
 		// История заказов пользователя
 		Route::get('/user/orders', [UserController::class, 'orders'])->name('user.orders');
-		// Маршрут для просмотра деталей заказа создадим позже
+		// Маршрут для просмотра деталей заказа создадим позже может быть
 	});
 
 	// Сброс пароля
@@ -78,11 +79,6 @@
 
 	// Корзина
 	Route::get('/cart', [CartController::class, 'showCart'])->name('cart');
-	Route::post('/checkout', [CartController::class, 'checkout'])->name('checkout');
-	Route::post('/cart/checkout', [CartController::class, 'checkout'])->name('cart.checkout');
-	Route::post('/cart/register', [CartController::class, 'register'])->name('cart.register');
-	Route::post('/cart/add/{productId}', [CartController::class, 'addToCart'])->name('cart.add');
-	Route::delete('/cart/remove/{productId}', [CartController::class, 'removeFromCart'])->name('cart.remove');
 
 	//подсказки поиска
 	Route::get('/search/suggestions', [HomeController::class, 'searchSuggestions']);

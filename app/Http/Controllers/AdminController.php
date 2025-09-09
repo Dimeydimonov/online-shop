@@ -6,8 +6,6 @@
 	use App\Http\Requests\UpdateProductRequest;
 	use App\Http\Requests\UpdateUserRequest;
 	use App\Services\OrderService;
-
-	// Добавьте использование OrderService
 	use App\Services\ProductService;
 	use App\Services\UserService;
 	use Illuminate\Routing\Controller;

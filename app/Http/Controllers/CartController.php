@@ -22,9 +22,6 @@
 			$this->checkoutService = $checkoutService;
 		}
 
-		/**
-		 * Отображение корзины.
-		 */
 		public function showCart(Request $request): View
 		{
 			$cartData = $this->cartService->getCartDataWithTotals($request);
@@ -32,9 +29,6 @@
 			return view('cart', array_merge($cartData, ['isGuest' => $isGuest]));
 		}
 
-		/**
-		 * Оформление заказа.
-		 */
 		public function checkout(Request $request): \Illuminate\Http\RedirectResponse
 		{
 			$checkoutData = $request->only(['name', 'phone', 'address', 'email', 'payment_method']); // Получаем данные из формы
@@ -47,9 +41,6 @@
 			}
 		}
 
-		/**
-		 * Добавление товара в корзину (AJAX).
-		 */
 		public function addToCart($productId)
 		{
 			$product = $this->productService->getProductById($productId);
@@ -65,9 +56,6 @@
 			return response()->json(['error' => 'Не удалось добавить товар в корзину.'], 500);
 		}
 
-		/**
-		 * Удаление товара из корзины.
-		 */
 		public function removeFromCart($productId): \Illuminate\Http\RedirectResponse
 		{
 			if ($this->cartService->removeFromCart($productId)) {

@@ -17,13 +17,10 @@
 		public function index(Request $request)
 		{
 			$query = Product::query();
-
-			// Фильтрация по кат
 			if ($request->has('category') && $request->category) {
 				$query->where('category', $request->category);
 			}
 
-			// Сорт
 			if ($request->has('sort') && $request->sort) {
 				switch ($request->sort) {
 					case 'price_asc':
@@ -40,11 +37,7 @@
 						break;
 				}
 			}
-
-			// Пагинация товаров
 			$products = $query->paginate(15);
-
-			// Передаем данные в представление
 			return view('home', [
 				'products' => $products,
 				'currentCategory' => $request->category,

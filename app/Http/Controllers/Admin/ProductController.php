@@ -8,6 +8,8 @@
 	use App\Models\Product;
 	use App\Services\ProductService;
 	use Illuminate\Http\RedirectResponse;
+	use Illuminate\Support\Facades\Request;
+	use Illuminate\Support\Facades\Storage;
 	use Illuminate\View\View;
 
 	class ProductController extends Controller
@@ -57,7 +59,6 @@
 			$data = $request->validated();
 			$imagePath = $this->productService->handleImageUpload($request);
 			if ($imagePath) {
-				// Удалить старое изображение, если есть
 				if ($product->image && Storage::exists('public/' . $product->image)) {
 					Storage::delete('public/' . $product->image);
 				}

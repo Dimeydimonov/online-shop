@@ -25,8 +25,6 @@
 			return $this->model->create($data);
 		}
 
-		// Другие методы репозитория...
-
 		public function getByUserIdWithPagination(int $userId, int $perPage = 10): LengthAwarePaginator
 		{
 			return $this->model->where('user_id', $userId)->orderBy('order_date', 'desc')->paginate($perPage);
