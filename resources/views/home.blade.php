@@ -12,6 +12,7 @@
 						<div class="slide">Слайд 1</div>
 						<div class="slide">Слайд 2</div>
 						<div class="slide">Слайд 3</div>
+						<div class="slide">Слайд 4</div>
 					</div>
 				</div>
 
